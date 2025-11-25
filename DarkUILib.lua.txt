@@ -105,22 +105,28 @@ Enum.Font.Gotham, TextSize = 14 })
 
 end
 
-function Library:AddButton(name, callback) local btn =
-Make(“TextButton”, { Parent = self.frame, Text = name, Size =
-UDim2.new(0, 300, 0, 35), BackgroundColor3 = theme.Tab, TextColor3 =
-theme.Text, Font = Enum.Font.Gotham, TextSize = 14, })
+function Library:AddButton(name, callback)
+    local btn = Make("TextButton", {
+        Parent = self.frame, -- only works if self.frame exists
+        Text = name,
+        Size = UDim2.new(0, 300, 0, 35),
+        BackgroundColor3 = theme.Tab,
+        TextColor3 = theme.Text,
+        Font = Enum.Font.Gotham,
+        TextSize = 14,
+    })
 
     Make("UICorner", {Parent = btn})
 
-    btn.MouseButton1Click:Connect(function()
-        callback()
-    end)
-
+    btn.MouseButton1Click:Connect(callback)
 end
 
-function Library:AddToggle(name, default, callback) local holder =
-Make(“Frame”, { Parent = self.frame, Size = UDim2.new(0, 300, 0, 35),
-BackgroundTransparency = 1, })
+function Library:AddToggle(name, default, callback)
+    local holder = Make("Frame", {
+        Parent = self.frame, -- again, must exist
+        Size = UDim2.new(0, 300, 0, 35),
+        BackgroundTransparency = 1,
+    })
 
     local label = Make("TextLabel", {
         Parent = holder,
@@ -143,13 +149,11 @@ BackgroundTransparency = 1, })
     Make("UICorner", {Parent = toggle})
 
     local state = default
-
     toggle.MouseButton1Click:Connect(function()
         state = not state
         toggle.BackgroundColor3 = state and theme.ToggleOn or theme.ToggleOff
         callback(state)
     end)
-
 end
 
 return Library
